@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>上传与识别地震及非自然地震</title>
+  <script src="js/jquery-1.7.1.min.js"></script>
+  <script src="http://0.0.0.0:3000/socket.io/socket.io.js"></script>
+  <script src="js/delivery.js"></script>
+  <script src="js/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/upload.css" >
+
+</head>
+<body>
+  <div id="wrapper">
+    <div id = "headblock">
+      <div id = "imgblock">
+        <img src="img/wave_img.png"/>
+      </div>
+    </div>
+    <div id = "sep"></div>
+
+    <h1>请您选择需要上传的地震文件<br/>文件格式为MiniSEED</h1>
+    <div id = "sep"></div>
+
+    <form id = "upload_form">
+      <div id = "big_block">
+          <div id = "out_bottoms">
+              <div id = "buttoms">
+                  <div id = "path">
+                      <input type="file" value="浏览文件">
+                  </div>
+                  
+                  
+                  <div id = "upload_buttom">
+                      <input type="submit" value="上传文件">
+                  </div>
+        
+              </div>
+          </div>
+      </div>
+      
+    </form>
+    <div id="outcome"></div>
+  </div>
+
+  <div id = "sep" style ="height:40px">
+
+  </div>
+
+</body>
+</html>

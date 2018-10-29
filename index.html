@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 90%">
+</div>
+<div id = "belowcontainer" align = "center">
+    <button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="button" >Pause Stream</button>
+</div>
+<div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script type="text/javascript">
+    var updatable = true;
+
+    (function() {
+        'use strict';
+        var snackbarContainer = document.querySelector('#demo-snackbar-example');
+        var showSnackbarButton = document.querySelector('#demo-show-snackbar');
+        var handler = function(event) {
+            var data;
+            updatable =!updatable;
+            if(updatable){
+                data = {
+                    message:'Data stream resumed.',
+                    timeout:2000
+                };
+                showSnackbarButton.innerHTML='Pause Stream';
+            }else{
+                data = {
+                    message:'Data stream resumed',
+                    timeout:2000
+                };
+                showSnackbarButton.innerHTML='Resume Stream';
+            }
+
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        };
+        showSnackbarButton.addEventListener('click', function() {
+            'use strict';
+            var data;
+            if(updatable){
+                updatable = !updatable;
+                data = {
+                    message: 'Data stream paused.',
+                    timeout: 2000,
+                    actionHandler: handler,
+                    actionText: 'Undo'
+                };
+                showSnackbarButton.innerHTML='Resume Stream';
+            }else{
+                updatable = !updatable;
+                data = {
+                    message: 'Data stream resumed.',
+                    timeout: 2000,
+                    actionHandler:handler,
+                    actionText:'Undo'
+                }
+                showSnackbarButton.innerHTML='Pause Stream';
+            }
+
+
+
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        });
+    }());
+</script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+
+
+    var timeData =[];
+
+    var datae=[];
+    var datan=[];
+    var dataz=[];
+    // timeData = timeData.map(function (str) {
+    //     return str.replace('2009/', '');
+    // });
+
+    option = {
+        title: {
+            text: '地震监测',
+            subtext: '数据来自中国台网中心',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                animation: false
+            }
+        },
+        legend: {
+            data:['E方向','N方向','Z方向'],
+            x: 'left'
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        axisPointer: {
+            link: {xAxisIndex: 'all'}
+        },
+        dataZoom: [
+
+            {
+                show: true,
+                realtime: true,
+                start: 0,
+                end: 100,
+                xAxisIndex: [0, 1, 2],
+                top:'80%'
+
+            },
+            {
+                type: 'inside',
+                realtime: true,
+                start: 0,
+                end: 100,
+                xAxisIndex: [0, 1 ,2]
+            }
+        ],
+        grid: [{
+            left: 50,
+            right: 50,
+            height: '65%'
+        }, {
+            left: 50,
+            right: 50,
+            top: '50%',
+            height: '35%'
+        }],
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData,
+            },
+            {
+
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData,
+                position: 'top',
+                show:false
+            },
+            {
+
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: true},
+                data: timeData,
+                position: 'top',
+                show:false
+            }
+        ],
+        yAxis : [
+            {
+                name : '能量单位',
+                type : 'value',
+
+            },
+            {
+                name : '能量单位2',
+                type : 'value',
+                show:false,
+
+            },
+            {
+                name : '能量单位3',
+                type : 'value',
+                show:false,
+
+            },
+
+        ],
+        series : [
+            {
+                name:'E方向',
+                type:'line',
+                symbolSize: 8,
+                hoverAnimation: false,
+                data:datae
+            },
+            {
+                name:'N方向',
+                type:'line',
+                symbolSize: 8,
+                hoverAnimation: false,
+                data:datan
+            },
+            {
+                name:'Z方向',
+                type:'line',
+                symbolSize: 8,
+                hoverAnimation: false,
+                data: dataz
+            }
+        ]
+    };;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+<script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        // var el = document.getElementById("container");
+        // //var ex = document.getElementById("explanation");
+        // var left = function(){
+        //     myChart.setOption({
+        //         title:{
+        //             text:'Hello!'
+        //         }
+        //     });
+        // }
+        // var middle = function(){
+        //
+        // }
+        // var right = function(){
+        //
+        // }
+        // bindMouseEvent(el,left,middle,right);
+        // function bindMouseEvent(el){
+        //     var args = [].slice.call(arguments),
+        //         el = el || document;
+        //     args[0] = function(){},
+        //         args[1] = args[1] || args[0],
+        //         args[2] = args[2] || args[0],
+        //         args[3] = args[3] || args[0],
+        //         el.onmousedown = function(e){
+        //             e = e || window.event;
+        //             var button = e.button;
+        //             if ( !e.which && isFinite(button) ) {
+        //                 e.which  = [0,1,3,0,2,0,0,0][button];//0现在代表没有意义
+        //             }
+        //             args[e.which](e);
+        //         }
+        // }
+        $(function () {
+            var socket = io();
+            // $('form').submit(function(){
+            //     socket.emit(' message', $('#m').val());
+            //     $('#m').val('');
+            //     return false;
+            // });
+            socket.on('update', function(data){
+                if(updatable){
+                    // if(datae.length>40000){
+                    //     datae.splice(0,5000);
+                    //     datan.splice(0,5000);
+                    //     dataz.splice(0,5000);
+                    //     timeData.splice(0,5000);
+                    // }
+                    if(datae.length>10000){
+                        datae.splice(0,5000);
+                        datan.splice(0,5000);
+                        dataz.splice(0,5000);
+                        timeData.splice(0,5000);
+                    }
+                    for(i = 0;i<100;i++){
+                        datae.push(data.datas[i].E);
+                        datan.push(data.datas[i].N);
+                        dataz.push(data.datas[i].Z);
+                        timeData.push('2009/12/20 ' + data.datas[i].date);
+                    }
+
+
+
+                    myChart.setOption({
+                        xAxis:{
+                            data:timeData
+                        },
+                        series:[
+                            {
+                                name:'E方向',
+                                data:datae
+                            },
+                            {
+                                name:'N方向',
+                                data:datan
+                            },
+                            {
+                                name:'Z方向',
+                                data:dataz
+                            }
+                        ]
+                    });
+                }
+            });
+            socket.on('detected',function(result) {
+
+                    var snackbarContainer = document.querySelector('#demo-snackbar-example');
+                    var data = {
+                        message: 'Earthquake detected.',
+                        timeout: 3000
+                    };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+
+            });
+            // socket.on('msg',function(msg){
+            //     $('#messages').append($('<li>').text(msg));
+            // })
+
+        });
+    </script>
+  </body>
+</html>
